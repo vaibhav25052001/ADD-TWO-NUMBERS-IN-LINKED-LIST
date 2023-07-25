@@ -1,0 +1,69 @@
+class Solution {
+    private:
+    ListNode *reverse(ListNode *head)
+    {
+        ListNode *prev=NULL;
+        ListNode *curr=head;
+        ListNode *forw=NULL;
+
+        while(curr)
+        {
+            forw=curr->next;
+            curr->next=prev;
+            prev=curr;
+            curr=forw;
+        }
+        return prev;
+    }
+    void insert(ListNode* &head,ListNode* &tail,int data)
+    {
+        ListNode *temp=new ListNode(data);
+        if(head==NULL)
+        {
+            head=temp;
+            tail=temp;
+            return;
+        }
+        else
+        {
+            tail->next=temp;
+            tail=temp;
+        }
+    }
+    ListNode *add(ListNode *first,ListNode *second)
+    {
+        int carry=0;
+        ListNode *anshead=NULL;
+        ListNode *anstail=NULL;
+
+        while(first || second || carry)
+        {
+            int val1=0;
+            if(first)
+            val1=first->val;
+
+            int val2=0;
+            if(second)
+            val2=second->val;
+
+            int sum=carry+val1+val2;
+            int digit=sum%10;
+
+            insert(anshead,anstail,digit);
+
+            carry=sum/10;
+
+            if(first)
+            first=first->next;
+
+            if(second)
+            second=second->next;
+        }
+        return anshead;
+    }
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        ListNode *ans=add(l1,l2);
+        return ans;
+    }
+};
